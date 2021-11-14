@@ -1,0 +1,12 @@
+---
+# vars file for FTP role
+vsftpd_packages:
+  - vsftpd
+  - python3-libsemanage
+vsftpd_service: vsftpd
+vsftpd_config_file: /etc/vsftpd/vsftpd.conf
+vsftpd_anon_dir_read: /var/ftp/pub
+vsftpd_anon_write_read: /var/ftp/pub/upload
+vsftpd_ports:
+  - 20
+  - 21

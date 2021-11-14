@@ -1,0 +1,53 @@
+---
+# tasks file for FTP role
+- name: install Vsftpd
+  package:
+    name: '{{ vsftpd_packages }}'
+    state: present
+
+- name: add anon main read dir
+  file:
+    path: '{{ vsftpd_anon_dir_read }}'
+    state: directory
+    owner: '{{ vsftpd_owner }}'
+    mode: '{{ vsftpd_read_mode }}'
+    setype: '{{ vsftpd_read_setype }}'
+  when: vsftpd_anon_dir_read is defined
+
+- name: add anon write dir
+  file:
+    path: '{{ vsftpd_anon_write_read }}'
+    state: directory
+    owner: '{{ vsftpd_owner }}'
+    mode: '{{ vsftpd_wrire_mode }}'
+    setype: '{{ vsftpd_write_setype }}'
+  when: vsftpd_anon_write_read is defined
+
+- name: install cfg file
+  template:
+    src:   vsftpd.conf.j2
+    dest: "{{ vsftpd_config_file }}"
+    mode: '0600'
+  notify: restart vsftpd
+
+- name: set ftpd_anon_write flag on and keep it persistent across reboots
+  seboolean:
+    name: ftpd_anon_write
+    state: yes
+    persistent: yes
+
+- name: enable ftp ports
+  become: yes
+  firewalld:
+    port: "{{ item }}/tcp"
+    permanent: yes
+    immediate: yes
+    state: enabled
+  loop: "{{ vsftpd_ports }}"
+  notify: restart vsftpd
+
+- name: ensure gtp service is started
+  service:
+    name: '{{ vsftpd_service }}'
+    state: started
+    enabled: true

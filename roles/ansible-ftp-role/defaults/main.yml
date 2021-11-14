@@ -1,0 +1,13 @@
+---
+# defaults file for FTP role
+vsftpd_anon_enable: true
+vsftpd_listen: true
+vsftpd_anon_upload_enable: true
+vsftpd_read_mode: '0755'
+vsftpd_wrire_mode: '0777'
+vsftpd_local_umask: '022'
+vsftpd_owner: ansible
+vsftpd_write_enable: true
+vsftpd_connect_from_port_20: true
+vsftpd_read_setype: public_content_t
+vsftpd_write_setype: public_content_rw_t

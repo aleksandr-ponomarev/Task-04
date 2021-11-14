@@ -1,0 +1,11 @@
+# Vsftpd configuration
+
+connect_from_port_20={{ 'YES' if vsftpd_connect_from_port_20 else 'NO' }}
+listen={{ 'YES' if vsftpd_listen else 'NO' }}
+
+# Access control for anonymous users
+anonymous_enable={{ 'YES' if vsftpd_anon_enable else 'NO' }}
+anon_upload_enable={{ 'YES' if vsftpd_anon_upload_enable else 'NO' }}
+anon_root={{ vsftpd_anon_dir_read }}
+write_enable={{ 'YES' if vsftpd_write_enable else 'NO' }}
+local_umask={{ vsftpd_local_umask }}

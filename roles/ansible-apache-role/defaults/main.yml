@@ -1,0 +1,6 @@
+---
+# defaults file for Apache role
+apache_web_ports:
+  - 80
+  - 443
+html_index_file_path: /var/www/html/index.html

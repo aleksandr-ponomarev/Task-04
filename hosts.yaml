@@ -1,0 +1,19 @@
+all:
+  hosts:
+    control.example.com:
+    node1.example.com:
+    node2.example.com:
+  children:
+    control:
+      hosts:
+        control.example.com:
+    nodes:
+      hosts:
+        node1.example.com:
+        node2.example.com:
+    web:
+      hosts:
+        node1.example.com:
+    ftp:
+      hosts:
+        node2.example.com:

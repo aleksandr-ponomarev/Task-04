@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome to host {{ansible_hostname}}!</title>
+    </head>
+    <body>
+        <p>{{ welcome_msg }}</p>
+		<p>Running on {{ansible_hostname}}.{{ansible_domain}} with IP {{ ansible_default_ipv4.address }}.</p>
+    </body>
+</html>

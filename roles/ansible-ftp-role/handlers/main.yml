@@ -1,0 +1,6 @@
+---
+# handlers file for FTP role
+- name: restart vsftpd
+  service:
+    name: "{{ vsftpd_service }}"
+    state: restarted

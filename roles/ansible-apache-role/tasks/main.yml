@@ -1,0 +1,45 @@
+---
+# tasks file for Apache role
+
+- name: install httpd package
+  become: yes
+  yum: name=httpd state=latest
+
+- name: make sure httpd service is enabled and started
+  become: yes
+  systemd:
+    enabled: yes
+    state: started
+    name: httpd
+
+- name: check if httpd service is running
+  command: systemctl status httpd
+  ignore_errors: yes
+  changed_when: false
+  register: service_httpd_status
+
+- name: report if httpd service is not running
+  fail:
+    msg: |
+      Service httpd is not running.
+      Output of `systemctl status httpd`:
+      {{ service_httpd_status.stdout }}
+      {{ service_httpd_status.stderr }}
+  when: service_httpd_status == "failed"
+  
+- name: create index.html file with lovely message
+  become: yes
+  template: 
+    src: index.html.j2
+    dest: "{{ html_index_file_path }}"
+  notify:
+  - Restart apache
+
+- name: enable httpd ports
+  become: yes
+  firewalld:
+    port: "{{ item }}/tcp"
+    permanent: yes
+    immediate: yes
+    state: enabled
+  loop: "{{ apache_web_ports }}"
