@@ -1,5 +1,4 @@
-- hosts: web
-  remote_user: ansible
+- remote_user: ansible
   become_user: root
   become: yes
 
