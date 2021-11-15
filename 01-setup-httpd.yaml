@@ -1,4 +1,5 @@
-- remote_user: ansible
+- hosts: node1.example.com
+  remote_user: ansible
   become_user: root
   become: yes
 
